@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+h2{
+    font-size: 20px;
+    font-family: 'Roboto';
+}
+a{
+    text-decoration: none;
+    color: black;
+    font-family: 'Karla';
+    font-size: 18px;
+    font-weight: bold;
+}
+.wrap{
+    max-width: 1440px;
+    width:60%;
+    margin: 0 auto;
+}
+.header__content{
+    box-shadow: 0px 2px 12px -7px rgba(0, 0, 0, 0.781);
+}
+.header__content-box{
+    display: flex;   
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+ul{
+    display: flex;
+    gap: 25px;
+}
+.cover{
+    text-align: center;
+    padding: 20px 0;
+}
+
+.main__content-cards{
+   min-height: 529.4px;
+}
+
+.menu form{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.input-box{
+    width: 240px;
+    height: 56px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+}
+.input-box{
+    font-size: 16px;
+    font-family: 'Roboto';
+    color: rgba(0, 0, 0, 0.6);
+}
+input{
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-family: 'Roboto';
+}
+.cards{
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.cards__content{
+    display: flex;
+    align-items: end;
+    width: 240px;
+    height: 244px;
+    border-radius:8px;
+    box-shadow: 0px 2px 12px -7px rgba(0, 0, 0, 0.781);
+}
+.cards__content img{
+    border-radius: 8px 8px 0 0;
+    width: 240px;
+    height: 168px;
+}
+.cards__text{
+    background-color: #fff;
+    padding: 8px 16px;
+    width: 240px;
+    height: 76px;
+    border-radius: 0 0 8px 8px;
+}
+.cards__text p{
+    font-family: 'Roboto';
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.cards__content-butt{
+    text-align: center;
+    padding-bottom: 50px;
+}
+button{
+    width: 154px;
+    height: 36px;
+    background-color: rgba(242, 249, 254, 1);
+    color: rgba(33, 150, 243, 1);
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 3px 12px -7px rgba(0, 0, 0, 0.781);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.footer{
+    box-shadow: 0px -2px 12px -7px rgba(0, 0, 0, 0.781);
+}
+.footer__content{
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Karla';
+    padding: 20px 0;
+}
