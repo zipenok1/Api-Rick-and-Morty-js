@@ -11,6 +11,7 @@ main();
 async function main() {
     await insertData();
     addingCards();
+    valueStatus()
 }
 async function insertData() {
     await getData();
@@ -19,9 +20,8 @@ async function insertData() {
 async function getData() {
     let response = await fetch(data.url);
     let responseJson = await response.json();
-    console.log(responseJson);
-    data.name = responseJson.results.name
     data.characters = responseJson.results;
+    console.log(data.characters);
 }
 
 async function insertCards() {
@@ -54,5 +54,29 @@ function addingCards() {
     });
 }
 
-
+async function valueStatus(){
+    const valueSearch = document.querySelector('#search')
+    valueSearch.addEventListener('input', function(){
+        const getValue = this.value
+        const filterCards = data.characters.filter(character => character.name.includes(getValue))
+        container.innerHTML = '';
+        if (filterCards.length > 0) {
+            let cards = '';
+            filterCards.forEach(character => {
+                cards += `
+                    <div class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                        <div class="cards__text">
+                            <h2>${character.name}</h2>
+                            <p>${character.species}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.insertAdjacentHTML('afterbegin', cards);
+        } 
+        if (getValue){
+            button.style.display = 'none';
+        }
+    })
+}
   
