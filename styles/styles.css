@@ -80,6 +80,7 @@ input{
     gap: 20px;
 }
 .cards__content{
+    cursor: pointer;
     display: flex;
     align-items: end;
     width: 240px;

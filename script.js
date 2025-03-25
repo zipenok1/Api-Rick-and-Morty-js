@@ -25,24 +25,27 @@ async function getData() {
     console.log(data.characters);
 }
 
+
 async function insertCards() {
     
     const arrCharacters = data.characters.slice(counter, counter + 8);
     let cards = '';
-
+    
     arrCharacters.forEach(character => {
         cards += `
-            <div class="cards__content" style="background: url(${character.image}) no-repeat center;">
-                <div class="cards__text">
+            <div onClick=addLocalStorage class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                <a href='characterDetails.html' class="cards__text">
                     <h2>${character.name}</h2>
                     <p>${character.species}</p>
-                </div>
+                </a>
             </div>
         `;
     });
 
     container.insertAdjacentHTML('beforeend', cards); 
     counter += arrCharacters.length; 
+
+    addLocalStorage()
 
     if (counter >= data.characters.length) {
         button.style.display = 'none';
@@ -59,6 +62,34 @@ function getFeachUpdate(url) {
     fetch(url)
     .then(res => res.json())
     .then((date) => setCharacter(date));
+}
+
+function addLocalStorage() {
+    const cardsClick = document.querySelectorAll('.cards__content');
+    cardsClick.forEach((detals, index) => {
+        detals.addEventListener('click', function() {
+            console.log('привет');
+            const clickedCharacter = data.characters[index];
+            const obj = {
+                gender: clickedCharacter.gender,
+                status: clickedCharacter.status,
+                specie: clickedCharacter.specie,
+                origin: clickedCharacter.origin.name,
+                type: clickedCharacter.type || `unknown`,
+                location: clickedCharacter.location.name,
+            }
+            const info = {
+                episode: clickedCharacter.episode,
+            }
+            const title ={
+                image: clickedCharacter.image,
+                name: clickedCharacter.name
+            }
+            localStorage.setItem('characterData', JSON.stringify(obj));   
+            localStorage.setItem('episodeData', JSON.stringify(info)); 
+            localStorage.setItem('titleDate', JSON.stringify(title)); 
+        });
+    });
 }
 
 async function selectStatus(){
@@ -86,11 +117,11 @@ async function selectStatus(){
                 let cards = '';
                 data.characters.forEach(character => {
                     cards += `
-                        <div class="cards__content" style="background: url(${character.image}) no-repeat center;">
-                            <div class="cards__text">
+                        <div onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                            <a href='characterDetails.html' class="cards__text">
                                 <h2>${character.name}</h2>
                                 <p>${character.species}</p>
-                            </div>
+                            </a>
                         </div>
                     `;
                 }); 
@@ -104,6 +135,7 @@ async function selectStatus(){
             } )
     }
 }
+
 
 async function valueStatus(){
     const valueSearch = document.querySelector('#search')
@@ -127,7 +159,7 @@ async function valueStatus(){
             let cards = '';
             data.characters.forEach(character => {
                 cards += `
-                    <div class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                    <div onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
                         <div class="cards__text">
                             <h2>${character.name}</h2>
                             <p>${character.species}</p>
