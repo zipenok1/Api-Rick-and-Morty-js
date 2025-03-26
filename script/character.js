@@ -27,12 +27,10 @@ async function renderTitle(){
     let date = ''
 
         date += `
-                    <img src="${objTitle.image}" alt="cover">
-                    <p>${objTitle.name}z</p>
-   
+                <img src="${objTitle.image}" alt="cover">
+                <p>${objTitle.name}z</p>
         `
-    
-       
+        
     boxTitle.insertAdjacentHTML('beforeend', date); 
 }
 
@@ -44,8 +42,7 @@ async function renderingInfo(){
                 <div class="informayin__details-box">
                     <h3>${key}</h3>
                     <p>${objData[key]}</p>
-                </div>
-               
+                </div>          
         `
     }
        
@@ -57,6 +54,7 @@ async function renderEpisodes(){
         for(let i = 0; i < objEpisodes.length; i++ ){
             let response = await fetch(objEpisodes[i]);
             let responseJson = await response.json();
+            console.log(responseJson);
             console.log(i);
             date += `
                     <div class="informayin__details-box">
@@ -71,7 +69,4 @@ async function renderEpisodes(){
     } catch(e){
         console.log(e);
     }
-    
-       
-   
 }

@@ -10,7 +10,7 @@ h3{
 .coverDetails{
     display: flex;
     justify-content: left;
-    gap: 30%;
+    gap: 25%;
     padding: 20px 0;
 }
 .coverDetails img{
@@ -23,6 +23,9 @@ h3{
     text-align: center;
     font-size: 48px;
     font-family: 'Roboto';
+}
+.coverDetails__content p{
+    width: 380px;
 }
 .informayin__details{
     padding: 40px 0;

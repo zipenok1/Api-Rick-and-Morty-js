@@ -1,8 +1,8 @@
 let data = {
-    'url': 'https://rickandmortyapi.com/api/character/?'
+    'url': 'https://rickandmortyapi.com/api/location/?'
 };
 
-const container = document.querySelector('.cards');
+const container = document.querySelector('.locations__content-cards');
 const button = document.querySelector('.add-cards'); 
 let counter = 0; 
 
@@ -25,7 +25,6 @@ async function getData() {
     console.log(data.characters);
 }
 
-
 async function insertCards() {
     
     const arrCharacters = data.characters.slice(counter, counter + 8);
@@ -33,12 +32,10 @@ async function insertCards() {
     
     arrCharacters.forEach(character => {
         cards += `
-            <div onClick=addLocalStorage class="cards__content" style="background: url(${character.image}) no-repeat center;">
-                <a href='characterDetails.html' class="cards__text">
-                    <h2>${character.name}</h2>
-                    <p>${character.species}</p>
-                </a>
-            </div>
+            <a href='locationDetails.html' class="locations__cards">
+                <h3>${character.name}</h3>
+                <p>${character.type}</p>
+            </a>
         `;
     });
 
@@ -65,29 +62,25 @@ function getFeachUpdate(url) {
 }
 
 function addLocalStorage() {
-    const cardsClick = document.querySelectorAll('.cards__content');
-    cardsClick.forEach((detals, index) => {
+    const cardsClick = document.querySelectorAll('.locations__cards');
+    cardsClick.forEach((detals, i) => {
         detals.addEventListener('click', function() {
             console.log('привет');
-            const clickedCharacter = data.characters[index];
-            const obj = {
-                gender: clickedCharacter.gender,
-                status: clickedCharacter.status,
-                specie: clickedCharacter.specie,
-                origin: clickedCharacter.origin.name,
-                type: clickedCharacter.type || `unknown`,
-                location: clickedCharacter.location.name,
-            }
-            const info = {
-                episode: clickedCharacter.episode,
+            const clickedCharacter = data.characters[i];
+            const titleName = {
+                name: clickedCharacter.name,
             }
             const title ={
-                image: clickedCharacter.image,
-                name: clickedCharacter.name
+                type: clickedCharacter.type,
+                dimension: clickedCharacter.dimension,
             }
-            localStorage.setItem('characterData', JSON.stringify(obj));   
-            localStorage.setItem('episodeData', JSON.stringify(info)); 
-            localStorage.setItem('titleDate', JSON.stringify(title)); 
+            const info = {
+                residents: clickedCharacter.residents,
+            }
+            
+            localStorage.setItem('locationsCharacter', JSON.stringify(info)); 
+            localStorage.setItem('locationsTitle', JSON.stringify(title)); 
+            localStorage.setItem('locationsName', JSON.stringify(titleName)); 
         });
     });
 }
@@ -98,7 +91,6 @@ async function selectStatus(){
         selectSearch[i].addEventListener('change', async function(){
             const valueSelect = this.value.toLowerCase()
             const selectName = this.innerText.split('\n')[0].toLowerCase()
-            console.log(valueSelect, selectName);
             if(valueSelect == selectName){
                 data.url = data.url.replace(new RegExp(`${selectName}=[^&]+&`), '');
             }
@@ -109,25 +101,22 @@ async function selectStatus(){
                  data.url += `${selectName}=${valueSelect}&`
             }
 
-           
-            console.log(data.url);
             await getData()
             container.innerHTML = '';
             if (data?.characters?.length > 0) {
                 let cards = '';
                 data.characters.forEach(character => {
                     cards += `
-                        <div onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
-                            <a href='characterDetails.html' class="cards__text">
-                                <h2>${character.name}</h2>
-                                <p>${character.species}</p>
-                            </a>
-                        </div>
+                        <a href='locationDetails.html' class="locations__cards">
+                            <h3>${character.name}</h3>
+                            <p>${character.type}</p>
+                        </a>
                     `;
                 }); 
                 container.insertAdjacentHTML('afterbegin', cards);
+                addLocalStorage()
             } else{
-                data.url = 'https://rickandmortyapi.com/api/character/?'
+                data.url = 'https://rickandmortyapi.com/api/location/?'
             }
             if (valueSelect){
                 button.style.display = 'none';
@@ -135,7 +124,6 @@ async function selectStatus(){
             } )
     }
 }
-
 
 async function valueStatus(){
     const valueSearch = document.querySelector('#search')
@@ -159,17 +147,16 @@ async function valueStatus(){
             let cards = '';
             data.characters.forEach(character => {
                 cards += `
-                    <div onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
-                        <div class="cards__text">
-                            <h2>${character.name}</h2>
-                            <p>${character.species}</p>
-                        </div>
-                    </div>
+                    <a href='locationDetails.html' class="locations__cards">
+                        <h3>${character.name}</h3>
+                        <p>${character.type}</p>
+                    </a>
                 `;
             }); 
             container.insertAdjacentHTML('afterbegin', cards);
+            addLocalStorage()
         } else{
-            data.url = 'https://rickandmortyapi.com/api/character/?'
+            data.url = 'https://rickandmortyapi.com/api/location/?'
         }
         if (getValue){
             button.style.display = 'none';

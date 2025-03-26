@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/styles.css">
-    <title>api</title>   
+    <link rel="stylesheet" href="styles/locations.css">
+    <title>locations</title>
 </head>
 <body>
     <header class="header">
-        <div class="header__content ">
+        <div class="header__content">
             <div class="header__content-box wrap">
                 <img src="img/logoHeader.svg" alt="logo">
                 <nav>
@@ -21,47 +22,48 @@
             </div>
         </div>
         <div class="cover">
-            <img src="img/coverCharacters.svg" alt="cover">
+            <img src="img/locations.svg" alt="cover">
         </div>
     </header>
-    <main class="main wrap">
+    <main class="wrap">
         <section class="menu">
             <form>
-                <div class="input-box">
+                <div class="input-box local">
                     <img src="img/search.svg" alt="search">
                     <input id="search" type="text" value="" placeholder="Filter by name...">
                 </div>
                 <select class="input-box">
-                    <option>Species</option>
-                    <option>Human</option>
-                    <option>Alien</option>
+                    <option>Type</option>
+                    <option>Planet</option>
+                    <option>Cluster</option>
+                    <option>Space station</option>
+                    <option>Microverse</option>
+                    <option>TV</option>
+                    <option>Resort</option>
                 </select>
                 <select class="input-box">
-                    <option>Gender</option>
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
-                <select class="input-box">
-                    <option>Status</option>
-                    <option>Dead</option>
-                    <option>Alive</option>
+                    <option>Dimension</option>
+                    <option>Dimension C-137</option>
                 </select>
             </form>
         </section>
-        <section class="main__content-cards">
-
-            <div class="cards"> </div>
-        
-        <div class="cards__content-butt">
-            <button class="add-cards">LOAD MORE</button>
-        </div>
-        </section> 
+        <section class="locations">
+            <div class="locations__content-cards">
+    
+            </div>
+            
+            <div class="cards__content-butt">
+                <button class="add-cards">LOAD MORE</button>
+            </div>
+        </section>
     </main>
+    
     <footer class="footer">
         <div class="footer__content wrap">
             <p>Make with ❤️ for the MobProgramming team</p>
         </div>
     </footer>
-<script src="script/script.js"></script>
+    
+    <script src="script/locations.js" ></script>
 </body>
 </html>
