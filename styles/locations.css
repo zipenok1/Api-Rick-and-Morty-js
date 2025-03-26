@@ -66,3 +66,14 @@
 .localDetails__box-title{
     color: rgba(142, 142, 147, 1);
 }
+@media(max-width: 1000px){
+    .local {
+        width: auto;
+    }
+    
+}
+@media(max-width: 670px){
+    .localDetails__content{
+        margin-top: 10px;
+    }
+}

@@ -44,3 +44,47 @@ h3{
     margin-bottom: 5px;
     color: rgba(110, 121, 140, 1);
 }
+@media(max-width:1600px){
+    .coverDetails {
+        gap: 20%;
+    }
+    .informayin__details-box {
+        width: 300px;
+    }
+}
+@media(max-width:1154px){
+    .coverDetails {
+        gap: 14%;
+    }
+    .informayin__details h2{
+        margin-bottom: 10px;
+    }
+    .informayin__details{
+        gap: 20px;
+        flex-direction: column;
+    }
+    .informayin__details-box {
+        width: 280px;
+        margin-left: 0;
+    }
+}
+@media(max-width:904px){
+    .coverDetails img{
+        width: 240px;
+        height: 240px;
+        margin-bottom: 10px;
+    }
+    .coverDetails__content p{
+        font-size: 32px;
+        width: 260px;
+    }
+}
+@media(max-width:670px){
+    .coverDetails {
+        flex-direction: column;
+        align-items: center;
+    }
+    .coverDetails__content{
+        margin-top: 10px;
+    }
+}

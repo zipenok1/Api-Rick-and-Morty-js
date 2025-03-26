@@ -11,6 +11,16 @@ let objEpisodes = JSON.parse(episodes).episode;
 const boxCharacter = document.querySelector('.informayin__details-left')
 const boxEpisodes = document.querySelector('.informayin__details-right')
 const boxTitle = document.querySelector('.coverDetails__content')
+const burger = document.querySelector('#burger-checkbox')
+const navbar = document.querySelector('#navbar')
+
+burger.addEventListener('click', () => {
+    if(navbar.classList.contains('activ')){
+        navbar.classList.remove('activ')
+    } else{
+        navbar.classList.add('activ')
+    }
+})
 
 main();
 

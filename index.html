@@ -11,17 +11,23 @@
         <div class="header__content ">
             <div class="header__content-box wrap">
                 <img src="img/logoHeader.svg" alt="logo">
-                <nav>
+                <nav id="navbar">
                     <ul>
                         <li><a href="index.html">Characters</a></li>
                         <li><a href="locations.html">Locations</a></li>
                         <li><a href="episodes.html">Episodes</a></li>
                     </ul>
                 </nav>
+
+                <div class="header__burger">
+                    <input type="checkbox" id="burger-checkbox" class="burger-checkbox">
+                    <label for="burger-checkbox" class="burger"></label>
+                </div>
+                
             </div>
         </div>
         <div class="cover">
-            <img src="img/coverCharacters.svg" alt="cover">
+            <img class="cover-home" src="img/coverCharacters.svg" alt="cover">
         </div>
     </header>
     <main class="main wrap">

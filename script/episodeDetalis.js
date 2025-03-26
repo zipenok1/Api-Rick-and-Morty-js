@@ -11,6 +11,16 @@ console.log(objRharacter);
 const boxCharacter = document.querySelector('.localDetails__cards')
 const boxTitle = document.querySelector('.localDetails__content-desc')
 const boxTitleName = document.querySelector('.localDetails__content')
+const burger = document.querySelector('#burger-checkbox')
+const navbar = document.querySelector('#navbar')
+
+burger.addEventListener('click', () => {
+    if(navbar.classList.contains('activ')){
+        navbar.classList.remove('activ')
+    } else{
+        navbar.classList.add('activ')
+    }
+})
 
 main();
 

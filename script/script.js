@@ -4,6 +4,18 @@ let data = {
 
 const container = document.querySelector('.cards');
 const button = document.querySelector('.add-cards'); 
+const burger = document.querySelector('#burger-checkbox')
+const navbar = document.querySelector('#navbar')
+
+burger.addEventListener('click', () => {
+    if(navbar.classList.contains('activ')){
+        navbar.classList.remove('activ')
+    } else{
+        navbar.classList.add('activ')
+    }
+})
+
+
 let counter = 0; 
 
 main();

@@ -14,3 +14,8 @@
 .episode button {
     margin-bottom: 97px;
 }
+@media(max-width:850px){
+    .epis {
+        width: auto;
+    }
+}
