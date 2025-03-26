@@ -24,38 +24,37 @@ async function main() {
     addingCards();
     valueStatus();
 }
+
 async function insertData() {
     await getData();
     await insertCards();
 }
+
 async function getData() {
     let response = await fetch(data.url);
     let responseJson = await response.json();
-    data.characters = responseJson.results;
-    console.log(data.characters);
+    data.episodes = responseJson.results; 
+    console.log(data.episodes);
 }
 
 async function insertCards() {
-    
-    const arrCharacters = data.characters.slice(counter, counter + 8);
+    const arrEpisodes = data.episodes.slice(counter, counter + 8);
     let cards = '';
     
-    arrCharacters.forEach(character => {
+    arrEpisodes.forEach(episode => {
         cards += `
-            <a href='episodesDetails.html' class="locations__cards">
-                <h3>${character.name}</h3>
-                <p>${character.air_date}</p>
-                <p>${character.episode}</p>
+            <a href='episodesDetails.html?id=${episode.id}' class="locations__cards">
+                <h3>${episode.name}</h3>
+                <p>${episode.air_date}</p>
+                <p>${episode.episode}</p>
             </a>
         `;
     });
 
     container.insertAdjacentHTML('beforeend', cards); 
-    counter += arrCharacters.length; 
+    counter += arrEpisodes.length; 
 
-    addLocalStorage()
-
-    if (counter >= data.characters.length) {
+    if (counter >= data.episodes.length) {
         button.style.display = 'none';
     }
 }
@@ -63,35 +62,6 @@ async function insertCards() {
 function addingCards() {
     button.addEventListener('click', () => {
         insertCards(); 
-    });
-}
-
-function getFeachUpdate(url) { 
-    fetch(url)
-    .then(res => res.json())
-    .then((date) => setCharacter(date));
-}
-
-function addLocalStorage() {
-    const cardsClick = document.querySelectorAll('.locations__cards');
-    cardsClick.forEach((detals, i) => {
-        detals.addEventListener('click', function() {
-            console.log('привет');
-            const clickedCharacter = data.characters[i];
-            const titleName = {
-                name: clickedCharacter.name,
-            }
-            const title ={
-                episode: clickedCharacter.episode,
-                air_date: clickedCharacter.air_date,
-            }
-            const info = {
-                characters: clickedCharacter.characters,
-            }
-            localStorage.setItem('titleNameEpi', JSON.stringify(titleName)); 
-            localStorage.setItem('titleEpi', JSON.stringify(title)); 
-            localStorage.setItem('charactersEpi', JSON.stringify(info)); 
-        });
     });
 }
 
@@ -110,28 +80,33 @@ async function valueStatus(){
         else{
             data.url += `name=${getValue}&`
         }
-        console.log(data.url);
+        
         await getData()
         container.innerHTML = '';
-        if (data?.characters?.length > 0) {
+        counter = 0
+        const arrEpisodes = data.episodes.slice(counter, counter + 8);
+        if (arrEpisodes?.length > 0) {
             let cards = '';
-            data.characters.forEach(character => {
+            arrEpisodes.forEach(episode => {
                 cards += `
-                    <a href='episodesDetails.html'  class="locations__cards">
-                        <h3>${character.name}</h3>
-                        <p>${character.air_date}</p>
-                        <p>${character.episode}</p>
+                    <a href='episodesDetails.html?id=${episode.id}' class="locations__cards">
+                        <h3>${episode.name}</h3>
+                        <p>${episode.air_date}</p>
+                        <p>${episode.episode}</p>
                     </a>
                 `;
             }); 
             container.insertAdjacentHTML('afterbegin', cards);
-            addLocalStorage()
-        } else{
+        } else {
             data.url = 'https://rickandmortyapi.com/api/episode/?'
+            button.style.display = 'inline-block'
         }
-        if (getValue){
-            button.style.display = 'none';
-        }
+        counter += arrEpisodes.length; 
+
+            if (counter >= data.episodes.length) {
+                button.style.display = 'none';
+            } else{
+                button.style.display = 'inline-block'
+            }
     }) 
 }
-  

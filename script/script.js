@@ -15,7 +15,6 @@ burger.addEventListener('click', () => {
     }
 })
 
-
 let counter = 0; 
 
 main();
@@ -34,7 +33,6 @@ async function getData() {
     let response = await fetch(data.url);
     let responseJson = await response.json();
     data.characters = responseJson.results;
-    console.log(data.characters);
 }
 
 async function insertCards() {
@@ -44,7 +42,7 @@ async function insertCards() {
     
     arrCharacters.forEach(character => {
         cards += `
-            <a href='characterDetails.html' onClick=addLocalStorage class="cards__content" style="background: url(${character.image}) no-repeat center;">
+            <a href='characterDetails.html?id=${character.id}' onClick=addLocalStorage class="cards__content" style="background: url(${character.image}) no-repeat center;">
                 <div class="cards__text">
                     <h2>${character.name}</h2>
                     <p>${character.species}</p>
@@ -56,7 +54,6 @@ async function insertCards() {
     container.insertAdjacentHTML('beforeend', cards); 
     counter += arrCharacters.length; 
 
-    addLocalStorage()
 
     if (counter >= data.characters.length) {
         button.style.display = 'none';
@@ -66,40 +63,6 @@ async function insertCards() {
 function addingCards() {
     button.addEventListener('click', () => {
         insertCards(); 
-    });
-}
-
-function getFeachUpdate(url) { 
-    fetch(url)
-    .then(res => res.json())
-    .then((date) => setCharacter(date));
-}
-
-function addLocalStorage() {
-    const cardsClick = document.querySelectorAll('.cards__content');
-    cardsClick.forEach((detals, i) => {
-        detals.addEventListener('click', function() {
-            console.log('привет');
-            const clickedCharacter = data.characters[i];
-            const obj = {
-                gender: clickedCharacter.gender,
-                status: clickedCharacter.status,
-                specie: clickedCharacter.specie,
-                origin: clickedCharacter.origin.name,
-                type: clickedCharacter.type || `unknown`,
-                location: clickedCharacter.location.name,
-            }
-            const info = {
-                episode: clickedCharacter.episode,
-            }
-            const title ={
-                image: clickedCharacter.image,
-                name: clickedCharacter.name
-            }
-            localStorage.setItem('characterData', JSON.stringify(obj));   
-            localStorage.setItem('episodeData', JSON.stringify(info)); 
-            localStorage.setItem('titleDate', JSON.stringify(title)); 
-        });
     });
 }
 
@@ -123,11 +86,16 @@ async function selectStatus(){
             console.log(data.url);
             await getData()
             container.innerHTML = '';
-            if (data?.characters?.length > 0) {
+
+            counter = 0;
+            const arrCharacters = data.characters.slice(counter, counter + 8);
+          
+            if (arrCharacters?.length > 0) {
+               
                 let cards = '';
-                data.characters.forEach(character => {
+                arrCharacters.forEach(character => {
                     cards += `
-                        <a href='characterDetails.html' onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                        <a href='characterDetails.html?id=${character.id}' class="cards__content" style="background: url(${character.image}) no-repeat center;">
                             <div class="cards__text">
                                 <h2>${character.name}</h2>
                                 <p>${character.species}</p>
@@ -136,13 +104,17 @@ async function selectStatus(){
                     `;
                 }); 
                 container.insertAdjacentHTML('afterbegin', cards);
-                addLocalStorage()
+  
             } else{
                 data.url = 'https://rickandmortyapi.com/api/character/?'
             }
-            if (valueSelect){
+
+            counter += arrCharacters.length; 
+
+            if (counter >= data.characters.length) {
                 button.style.display = 'none';
             }
+            
             } )
     }
 }
@@ -165,11 +137,15 @@ async function valueStatus(){
         console.log(data.url);
         await getData()
         container.innerHTML = '';
-        if (data?.characters?.length > 0) {
+
+        counter = 0;
+        const arrCharacters = data.characters.slice(counter, counter + 8);
+
+        if (arrCharacters?.length > 0) {
             let cards = '';
-            data.characters.forEach(character => {
+            arrCharacters.forEach(character => {
                 cards += `
-                    <a href='characterDetails.html' onclick='addLocalStorage()' class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                    <a href='characterDetails.html?id=${character.id}' class="cards__content" style="background: url(${character.image}) no-repeat center;">
                         <div class="cards__text">
                             <h2>${character.name}</h2>
                             <p>${character.species}</p>
@@ -178,13 +154,18 @@ async function valueStatus(){
                 `;
             }); 
             container.insertAdjacentHTML('afterbegin', cards);
-            addLocalStorage()
+ 
         } else{
             data.url = 'https://rickandmortyapi.com/api/character/?'
+            button.style.display = 'inline-block'
         }
-        if (getValue){
-            button.style.display = 'none';
-        }
+        counter += arrCharacters.length; 
+
+            if (counter >= data.characters.length) {
+                button.style.display = 'none';
+            } else{
+                button.style.display = 'inline-block'
+            }
     }) 
 }
   

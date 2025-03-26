@@ -1,17 +1,16 @@
-let title = localStorage.getItem('locationsTitle')
-let objTitle = JSON.parse(title);
+let params = new URLSearchParams(document.location.search);
+let id = params.get('id'); 
+console.log(id);
 
-let titleName = localStorage.getItem('locationsName')
-let objName = JSON.parse(titleName);
+let locationData = {
+    'url': `https://rickandmortyapi.com/api/location/${id}` 
+};
 
-let character = localStorage.getItem('locationsCharacter')
-let objRharacter = JSON.parse(character).residents;
-console.log(objRharacter);
-const boxCharacter = document.querySelector('.localDetails__cards')
-const boxTitle = document.querySelector('.localDetails__content-desc')
-const boxTitleName = document.querySelector('.localDetails__content')
-const burger = document.querySelector('#burger-checkbox')
-const navbar = document.querySelector('#navbar')
+const boxCharacter = document.querySelector('.localDetails__cards');
+const boxTitle = document.querySelector('.localDetails__content-desc');
+const boxTitleName = document.querySelector('.localDetails__content');
+const burger = document.querySelector('#burger-checkbox');
+const navbar = document.querySelector('#navbar');
 
 burger.addEventListener('click', () => {
     if(navbar.classList.contains('activ')){
@@ -21,63 +20,71 @@ burger.addEventListener('click', () => {
     }
 })
 
-
 main();
 
 async function main() {
     await insertData();
 }
+
 async function insertData() {
-    await renderRharacter()
-    await renderTitle()
-    await renderTitleName()
+    await renderingInfo();
 }
 
-async function renderTitleName(){
-    let date = ''
-
-        date += `
-               <h2>${objName.name}</h2>
-        `
+async function renderingInfo() {
+    try {
+        let response = await fetch(locationData.url);
+        let location = await response.json();
         
+        renderLocationName(location);
+        
+        renderLocationInfo(location);
+        
+        await renderResidents(location.residents);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+function renderLocationName(location) {
+    let date = `<h2>${location.name}</h2>`
     boxTitleName.insertAdjacentHTML('afterbegin', date); 
 }
 
-async function renderTitle(){
-    let date = ''
-    let key;
-    for(key in objTitle){
+function renderLocationInfo(location) {
+    let info = {
+        type: location.type,
+        dimension: location.dimension
+    };
+    let date = '';
+    for(let key in info) {
         date += `
-                <div class="localDetails-opt">
-                        <p>${key}</p>
-                        <p>${objTitle[key]}</p>
-                    </div>
-                           
-        `
-    } 
+            <div class="localDetails-opt">
+                <p>${key}</p>
+                <p>${info[key]}</p>
+            </div>
+        `;
+    }
     boxTitle.insertAdjacentHTML('beforeend', date); 
 }
 
-async function renderRharacter(){
-    let date = ''
-    try{
-        for(let i = 0; i < objRharacter.length; i++ ){
-            let response = await fetch(objRharacter[i]);
-            let responseJson = await response.json();
-            console.log(responseJson);
-            console.log(i);
-            date += `
-                    <div class="cards__content" style="background: url(${responseJson.image}) no-repeat center;">
-                        <div class="cards__text">
-                            <h2>${responseJson.name}</h2>
-                            <p>${responseJson.species}</p>
-                        </div>
-                    </div>  
-            `
+async function renderResidents(residents) {
+    let date = '';
+    try {
+        for(let i = 0; i < residents.length; i++) {
+            let response = await fetch(residents[i]);
+            let resident = await response.json();
             
+            date += `
+                <a href='characterDetails.html?id=${resident.id}' class="cards__content" style="background: url(${resident.image}) no-repeat center;">
+                    <div class="cards__text">
+                        <h2>${resident.name}</h2>
+                        <p>${resident.species}</p>
+                    </div>
+                </a>  
+            `;
         }
         boxCharacter.insertAdjacentHTML('beforeend', date); 
-    } catch(e){
+    } catch(e) {
         console.log(e);
     }
 }

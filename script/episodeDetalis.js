@@ -1,18 +1,16 @@
-let title = localStorage.getItem('titleEpi')
-let objTitle = JSON.parse(title);
+let params = new URLSearchParams(document.location.search);
+let id = params.get('id'); 
+console.log(id);
 
-let titleName = localStorage.getItem('titleNameEpi')
-let objName = JSON.parse(titleName);
+let episodeData = {
+    'url': `https://rickandmortyapi.com/api/episode/${id}` 
+};
 
-let character = localStorage.getItem('charactersEpi')
-let objRharacter = JSON.parse(character).characters;
-console.log(objRharacter);
-
-const boxCharacter = document.querySelector('.localDetails__cards')
-const boxTitle = document.querySelector('.localDetails__content-desc')
-const boxTitleName = document.querySelector('.localDetails__content')
-const burger = document.querySelector('#burger-checkbox')
-const navbar = document.querySelector('#navbar')
+const boxCharacter = document.querySelector('.localDetails__cards');
+const boxTitle = document.querySelector('.localDetails__content-desc');
+const boxTitleName = document.querySelector('.localDetails__content');
+const burger = document.querySelector('#burger-checkbox');
+const navbar = document.querySelector('#navbar');
 
 burger.addEventListener('click', () => {
     if(navbar.classList.contains('activ')){
@@ -27,56 +25,71 @@ main();
 async function main() {
     await insertData();
 }
+
 async function insertData() {
-    await renderRharacter()
-    await renderTitle()
-    await renderTitleName()
+    await renderingInfo();
 }
 
-async function renderTitleName(){
-    let date = ''
+async function renderingInfo() {
+    try {
 
-        date += `
-               <h2>${objName.name}</h2>
-        `
+        let response = await fetch(episodeData.url);
+        let episode = await response.json();
         
+        renderEpisodeName(episode);
+        
+        renderEpisodeInfo(episode);
+        
+        await renderCharacters(episode.characters);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
+function renderEpisodeName(episode) {
+    let date = `<h2>${episode.name}</h2>`;
+
     boxTitleName.insertAdjacentHTML('afterbegin', date); 
 }
 
-async function renderTitle(){
-    let date = ''
-    let key;
-    for(key in objTitle){
+function renderEpisodeInfo(episode) {
+    let info = {
+        episode: episode.episode,
+        air_date: episode.air_date
+    };
+    
+    let date = '';
+    for(let key in info) {
         date += `
-                <div class="localDetails-opt">
-                        <p>${key}</p>
-                        <p>${objTitle[key]}</p>
-                    </div>
-                           
-        `
-    } 
+            <div class="localDetails-opt">
+                <p>${key}</p>
+                <p>${info[key]}</p>
+            </div>
+        `;
+    }
+
     boxTitle.insertAdjacentHTML('beforeend', date); 
 }
 
-async function renderRharacter(){
-    let date = ''
-    try{
-        for(let i = 0; i < objRharacter.length; i++ ){
-            let response = await fetch(objRharacter[i]);
-            let responseJson = await response.json();
-            console.log(responseJson);
-            console.log(i);
+async function renderCharacters(characters) {
+    let date = '';
+    try {
+        for(let i = 0; i < characters.length; i++) {
+            let response = await fetch(characters[i]);
+            let character = await response.json();
+            
             date += `
-                    <div class="cards__content" style="background: url(${responseJson.image}) no-repeat center;">
-                        <div class="cards__text">
-                            <h2>${responseJson.name}</h2>
-                            <p>${responseJson.species}</p>
-                        </div>
-                    </div>  
-            `
+                <a href='characterDetails.html?id=${character.id}' class="cards__content" style="background: url(${character.image}) no-repeat center;">
+                    <div class="cards__text">
+                        <h2>${character.name}</h2>
+                        <p>${character.species}</p>
+                    </div>
+                </ф>  
+            `;
         }
+
         boxCharacter.insertAdjacentHTML('beforeend', date); 
-    } catch(e){
+    } catch(e) {
         console.log(e);
     }
 }

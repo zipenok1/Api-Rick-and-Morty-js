@@ -32,30 +32,28 @@ async function insertData() {
 async function getData() {
     let response = await fetch(data.url);
     let responseJson = await response.json();
-    data.characters = responseJson.results;
-    console.log(data.characters);
+    data.locations = responseJson.results;
+    console.log(data.locations);
 }
 
 async function insertCards() {
     
-    const arrCharacters = data.characters.slice(counter, counter + 8);
+    const arrLocations = data.locations.slice(counter, counter + 8);
     let cards = '';
     
-    arrCharacters.forEach(character => {
+    arrLocations.forEach(locations => {
         cards += `
-            <a href='locationDetails.html' class="locations__cards">
-                <h3>${character.name}</h3>
-                <p>${character.type}</p>
+            <a href='locationDetails.html?id=${locations.id}' class="locations__cards">
+                <h3>${locations.name}</h3>
+                <p>${locations.type}</p>
             </a>
         `;
     });
 
     container.insertAdjacentHTML('beforeend', cards); 
-    counter += arrCharacters.length; 
+    counter += arrLocations.length; 
 
-    addLocalStorage()
-
-    if (counter >= data.characters.length) {
+    if (counter >= data.locations.length) {
         button.style.display = 'none';
     }
 }
@@ -63,36 +61,6 @@ async function insertCards() {
 function addingCards() {
     button.addEventListener('click', () => {
         insertCards(); 
-    });
-}
-
-function getFeachUpdate(url) { 
-    fetch(url)
-    .then(res => res.json())
-    .then((date) => setCharacter(date));
-}
-
-function addLocalStorage() {
-    const cardsClick = document.querySelectorAll('.locations__cards');
-    cardsClick.forEach((detals, i) => {
-        detals.addEventListener('click', function() {
-            console.log('привет');
-            const clickedCharacter = data.characters[i];
-            const titleName = {
-                name: clickedCharacter.name,
-            }
-            const title ={
-                type: clickedCharacter.type,
-                dimension: clickedCharacter.dimension,
-            }
-            const info = {
-                residents: clickedCharacter.residents,
-            }
-            
-            localStorage.setItem('locationsCharacter', JSON.stringify(info)); 
-            localStorage.setItem('locationsTitle', JSON.stringify(title)); 
-            localStorage.setItem('locationsName', JSON.stringify(titleName)); 
-        });
     });
 }
 
@@ -114,23 +82,30 @@ async function selectStatus(){
 
             await getData()
             container.innerHTML = '';
-            if (data?.characters?.length > 0) {
+
+            counter = 0;
+            const arrLocations = data.locations.slice(counter, counter + 8);
+
+            if (arrLocations?.length > 0) {
                 let cards = '';
-                data.characters.forEach(character => {
+                arrLocations.forEach(locations => {
                     cards += `
-                        <a href='locationDetails.html' class="locations__cards">
-                            <h3>${character.name}</h3>
-                            <p>${character.type}</p>
+                        <a href='locationDetails.html?id=${locations.id}' class="locations__cards">
+                            <h3>${locations.name}</h3>
+                            <p>${locations.type}</p>
                         </a>
                     `;
                 }); 
                 container.insertAdjacentHTML('afterbegin', cards);
-                addLocalStorage()
             } else{
                 data.url = 'https://rickandmortyapi.com/api/location/?'
             }
-            if (valueSelect){
+            counter += arrLocations.length; 
+
+            if (counter >= data.locations.length) {
                 button.style.display = 'none';
+            } else{
+                button.style.display = 'inline-block'
             }
             } )
     }
@@ -154,24 +129,33 @@ async function valueStatus(){
         console.log(data.url);
         await getData()
         container.innerHTML = '';
-        if (data?.characters?.length > 0) {
+
+        counter = 0;
+        const arrLocations = data.locations.slice(counter, counter + 8);
+
+        if (arrLocations?.length > 0) {
             let cards = '';
-            data.characters.forEach(character => {
+            arrLocations.forEach(locations => {
                 cards += `
-                    <a href='locationDetails.html' class="locations__cards">
-                        <h3>${character.name}</h3>
-                        <p>${character.type}</p>
+                    <a href='locationDetails.html?id=${locations.id}' class="locations__cards">
+                        <h3>${locations.name}</h3>
+                        <p>${locations.type}</p>
                     </a>
                 `;
             }); 
             container.insertAdjacentHTML('afterbegin', cards);
-            addLocalStorage()
+
         } else{
             data.url = 'https://rickandmortyapi.com/api/location/?'
+            button.style.display = 'inline-block'
         }
-        if (getValue){
-            button.style.display = 'none';
-        }
+        counter += arrLocations.length; 
+
+            if (counter >= data.locations.length) {
+                button.style.display = 'none';
+            } else{
+                button.style.display = 'inline-block'
+            }
     }) 
 }
   
