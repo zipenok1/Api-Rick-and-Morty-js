@@ -83,9 +83,9 @@ function renderInfo(character) {
 async function renderEpisodes(episodes) {
     let date = '';
     try {
+
         episodesLoader.style.fontSize = '18px';
         episodesLoader.style.fontFamily = 'Roboto'
-        boxEpisodes.innerHTML = '';
         boxEpisodes.appendChild(episodesLoader);
         
         for(let i = 0; i < episodes.length; i++) {
