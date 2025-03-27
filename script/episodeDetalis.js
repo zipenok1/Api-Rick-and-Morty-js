@@ -6,11 +6,14 @@ let episodeData = {
     'url': `https://rickandmortyapi.com/api/episode/${id}` 
 };
 
-const boxCharacter = document.querySelector('.localDetails__cards');
-const boxTitle = document.querySelector('.localDetails__content-desc');
-const boxTitleName = document.querySelector('.localDetails__content');
-const burger = document.querySelector('#burger-checkbox');
-const navbar = document.querySelector('#navbar');
+const boxCharacter = document.querySelector('.localDetails__cards')
+const boxTitle = document.querySelector('.localDetails__content-desc')
+const boxTitleName = document.querySelector('.localDetails__content')
+const burger = document.querySelector('#burger-checkbox')
+const navbar = document.querySelector('#navbar')
+
+const charactersLoader = document.createElement('div')
+charactersLoader.innerHTML = `<p>Loading characters...</p>`
 
 burger.addEventListener('click', () => {
     if(navbar.classList.contains('activ')){
@@ -32,14 +35,10 @@ async function insertData() {
 
 async function renderingInfo() {
     try {
-
         let response = await fetch(episodeData.url);
         let episode = await response.json();
-        
-        renderEpisodeName(episode);
-        
-        renderEpisodeInfo(episode);
-        
+        renderEpisodeName(episode);   
+        renderEpisodeInfo(episode);      
         await renderCharacters(episode.characters);
     } catch(e) {
         console.log(e);
@@ -74,6 +73,13 @@ function renderEpisodeInfo(episode) {
 async function renderCharacters(characters) {
     let date = '';
     try {
+
+        charactersLoader.style.display = 'flex';
+        charactersLoader.style.fontSize = '30px';
+        charactersLoader.style.fontFamily = 'Roboto'
+        boxCharacter.innerHTML = '';
+        boxCharacter.appendChild(charactersLoader);
+        
         for(let i = 0; i < characters.length; i++) {
             let response = await fetch(characters[i]);
             let character = await response.json();
@@ -84,12 +90,16 @@ async function renderCharacters(characters) {
                         <h2>${character.name}</h2>
                         <p>${character.species}</p>
                     </div>
-                </ф>  
+                </a>  
             `;
         }
-
+        
         boxCharacter.insertAdjacentHTML('beforeend', date); 
+        
     } catch(e) {
         console.log(e);
+        boxCharacter.innerHTML = '<p class="error-message">Error loading characters</p>';
+    } finally {
+        charactersLoader.style.display = 'none';
     }
 }

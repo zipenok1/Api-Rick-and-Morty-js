@@ -12,6 +12,9 @@ const boxTitleName = document.querySelector('.localDetails__content');
 const burger = document.querySelector('#burger-checkbox');
 const navbar = document.querySelector('#navbar');
 
+const residentsLoader = document.createElement('div');
+residentsLoader.innerHTML = `<p>Loading residents...</p>`;
+
 burger.addEventListener('click', () => {
     if(navbar.classList.contains('activ')){
         navbar.classList.remove('activ')
@@ -33,13 +36,12 @@ async function insertData() {
 async function renderingInfo() {
     try {
         let response = await fetch(locationData.url);
-        let location = await response.json();
-        
+        let location = await response.json();      
+        console.log(location.residents);
         renderLocationName(location);
-        
         renderLocationInfo(location);
-        
         await renderResidents(location.residents);
+       
     } catch(e) {
         console.log(e);
     }
@@ -70,6 +72,13 @@ function renderLocationInfo(location) {
 async function renderResidents(residents) {
     let date = '';
     try {
+        
+        residentsLoader.style.display = 'flex';
+        residentsLoader.style.fontSize = '30px';
+        residentsLoader.style.fontFamily = 'Roboto'
+        boxCharacter.innerHTML = '';
+        boxCharacter.appendChild(residentsLoader);
+        
         for(let i = 0; i < residents.length; i++) {
             let response = await fetch(residents[i]);
             let resident = await response.json();
@@ -83,8 +92,10 @@ async function renderResidents(residents) {
                 </a>  
             `;
         }
-        boxCharacter.insertAdjacentHTML('beforeend', date); 
+        boxCharacter.insertAdjacentHTML('beforeend', date);    
     } catch(e) {
         console.log(e);
+    } finally {
+        residentsLoader.style.display = 'none';
     }
 }

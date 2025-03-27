@@ -1,9 +1,9 @@
 let params = new URLSearchParams(document.location.search);
-let id = params.get('id'); // Получаем ID из URL
+let id = params.get('id'); 
 console.log(id);
 
 let charact = {
-    'url': `https://rickandmortyapi.com/api/character/${id}` // Исправленный URL для одного персонажа
+    'url': `https://rickandmortyapi.com/api/character/${id}` 
 };
 
 const boxCharacter = document.querySelector('.informayin__details-left');
@@ -11,6 +11,9 @@ const boxEpisodes = document.querySelector('.informayin__details-right');
 const boxTitle = document.querySelector('.coverDetails__content');
 const burger = document.querySelector('#burger-checkbox');
 const navbar = document.querySelector('#navbar');
+
+const episodesLoader = document.createElement('div');
+episodesLoader.innerHTML = `<p>Loading episodes...</p>`
 
 burger.addEventListener('click', () => {
     if(navbar.classList.contains('activ')){
@@ -80,6 +83,11 @@ function renderInfo(character) {
 async function renderEpisodes(episodes) {
     let date = '';
     try {
+        episodesLoader.style.fontSize = '18px';
+        episodesLoader.style.fontFamily = 'Roboto'
+        boxEpisodes.innerHTML = '';
+        boxEpisodes.appendChild(episodesLoader);
+        
         for(let i = 0; i < episodes.length; i++) {
             let response = await fetch(episodes[i]);
             let episode = await response.json();
@@ -94,8 +102,12 @@ async function renderEpisodes(episodes) {
                 </div>    
             `;
         }
+
         boxEpisodes.insertAdjacentHTML('beforeend', date); 
+        
     } catch(e) {
         console.log(e);
+    } finally {
+        episodesLoader.style.display = 'none';
     }
 }

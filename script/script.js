@@ -39,7 +39,7 @@ async function insertCards() {
     
     const arrCharacters = data.characters.slice(counter, counter + 8);
     let cards = '';
-    
+    console.log(arrCharacters);
     arrCharacters.forEach(character => {
         cards += `
             <a href='characterDetails.html?id=${character.id}' onClick=addLocalStorage class="cards__content" style="background: url(${character.image}) no-repeat center;">
@@ -53,7 +53,6 @@ async function insertCards() {
 
     container.insertAdjacentHTML('beforeend', cards); 
     counter += arrCharacters.length; 
-
 
     if (counter >= data.characters.length) {
         button.style.display = 'none';
@@ -113,6 +112,8 @@ async function selectStatus(){
 
             if (counter >= data.characters.length) {
                 button.style.display = 'none';
+            } else{
+                button.style.display = 'inline-block'
             }
             
             } )
@@ -134,13 +135,13 @@ async function valueStatus(){
         else{
             data.url += `name=${getValue}&`
         }
-        console.log(data.url);
         await getData()
         container.innerHTML = '';
 
         counter = 0;
         const arrCharacters = data.characters.slice(counter, counter + 8);
-
+        console.log(arrCharacters);
+        
         if (arrCharacters?.length > 0) {
             let cards = '';
             arrCharacters.forEach(character => {
@@ -154,13 +155,12 @@ async function valueStatus(){
                 `;
             }); 
             container.insertAdjacentHTML('afterbegin', cards);
- 
         } else{
             data.url = 'https://rickandmortyapi.com/api/character/?'
             button.style.display = 'inline-block'
         }
         counter += arrCharacters.length; 
-
+            
             if (counter >= data.characters.length) {
                 button.style.display = 'none';
             } else{
